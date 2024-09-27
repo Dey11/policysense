@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 const Hero = () => {
   return (
     <div className="ml-[330px] w-full text-center">
-      <div className="pt-2">
+      <div className="pt-3">
         <h1 className="flex justify-center text-[40px] font-semibold tracking-tight text-blue-500">
           <div className="flex items-center gap-x-2">
             <Image src="/image.png" alt="Insurance" width={40} height={40} />
