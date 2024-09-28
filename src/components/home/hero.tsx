@@ -22,7 +22,7 @@ const Hero = () => {
         </h1>
       </div>
 
-      <div className="mx-12 flex justify-between pt-10">
+      <div className="flex justify-center gap-x-10 pt-10">
         {PolicyObject.map((policy: any, index: number) => (
           <PolicyCard key={index} policy={policy} />
         ))}
