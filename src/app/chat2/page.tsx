@@ -80,6 +80,10 @@ const Chat2 = () => {
       setMessages((prevMessages) => [
         ...prevMessages.slice(0, prevMessages.length - 1),
       ]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { id: messages.length + 1, text: "Something went wrong", sender: "ai" },
+      ]);
       console.error("Error fetching AI response:", error);
     } finally {
       setIsLoading(false);
