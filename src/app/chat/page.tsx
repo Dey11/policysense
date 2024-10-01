@@ -69,8 +69,8 @@ const Chat = () => {
             <div
               className={`inline-block rounded-2xl p-2 ${
                 message.sender === "user"
-                  ? "rounded-br-none bg-white text-blue-500"
-                  : "rounded-bl-none bg-blue-500 text-white"
+                  ? "max-w-xl rounded-br-none bg-white text-blue-500"
+                  : "max-w-xl rounded-bl-none bg-blue-500 text-white"
               }`}
             >
               {message.text}
