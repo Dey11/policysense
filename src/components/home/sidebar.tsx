@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Menu, Plus, X, ChevronDown } from "lucide-react";
+import { Menu, Plus, X, ChevronDown, LogOut } from "lucide-react";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
+import { SignIn } from "../custom-btns/signin";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showChatOptions, setShowChatOptions] = useState(false);
-
+  const { data: session } = useSession();
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleChatOptions = () => setShowChatOptions(!showChatOptions);
 
@@ -73,13 +76,32 @@ const Sidebar = () => {
           </div>
 
           <div className="mx-6 mt-auto flex items-center justify-between rounded-lg p-2">
-            <div className="flex w-[240px] items-center gap-x-2">
-              <div className="h-9 w-9 rounded-full bg-black"></div>
-              <h2 className="text-sm font-semibold text-[#3A3A40]">
-                Joseph Morgan Duo
-              </h2>
-            </div>
-            <Menu className="h-6 w-6 text-gray-400" />
+            {session?.user ? (
+              <div className="flex items-center justify-between">
+                <div className="flex w-[240px] items-center gap-x-2">
+                  <div className="h-9 w-9">
+                    <Image
+                      src={session.user.image!}
+                      alt="Profile Picture"
+                      width={40}
+                      height={40}
+                      className="rounded-full"
+                    />
+                  </div>
+                  <h2 className="text-sm font-semibold text-[#3A3A40]">
+                    {session.user.name}
+                  </h2>
+                </div>
+                <LogOut
+                  className="h-6 w-6 text-gray-400"
+                  onClick={() => signOut()}
+                />
+              </div>
+            ) : (
+              <div className="w-full items-center">
+                <SignIn />
+              </div>
+            )}
           </div>
         </div>
       </div>
