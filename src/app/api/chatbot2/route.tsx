@@ -9,7 +9,7 @@ export async function POST(request: NextRequest) {
 
   const apiFormData = new FormData();
   apiFormData.append("query", query as string);
-  apiFormData.append("pdf", file!);
+  apiFormData.append("file", file!);
 
   try {
     const res = await fetch(process.env.CHATBOT2!, {
