@@ -57,7 +57,7 @@ const Chat = () => {
   };
 
   return (
-    <div className="no-scrollbar mx-auto flex h-screen max-w-3xl flex-col p-4">
+    <div className="no-scrollbar mx-auto flex h-[95dvh] max-w-3xl flex-col p-4">
       <div className="mb-4 flex-1 overflow-y-auto px-2" ref={chatContainerRef}>
         {messages.map((message) => (
           <div

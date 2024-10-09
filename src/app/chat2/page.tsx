@@ -91,7 +91,7 @@ const Chat2 = () => {
   };
 
   return (
-    <div className="mx-auto flex h-screen max-w-3xl flex-col p-4">
+    <div className="mx-auto flex h-[95dvh] max-w-3xl flex-col p-4">
       <div className="mb-4">
         <Label htmlFor="file" className="text-sm font-medium">
           Upload PDF
