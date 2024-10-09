@@ -7,6 +7,7 @@ import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { SignIn } from "../custom-btns/signin";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,18 +16,36 @@ const Sidebar = () => {
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleChatOptions = () => setShowChatOptions(!showChatOptions);
 
+  const pathname = usePathname();
+  console.log(pathname);
+
   const chatOptions = [
     {
-      name: "Chat",
-      link: "/chat",
+      name: "Policy Query",
+      link: "/policy-query",
+      features: [
+        "Your one stop destination for policies",
+        "Get real time replies from AI",
+        "Quickly compare policy details",
+      ],
     },
     {
-      name: "Chat2",
-      link: "/chat2",
+      name: "Verify Docs",
+      link: "/verify-docs",
+      features: [
+        "Instantly verify the authenticity and accuracy of your policy documents.",
+        "Ask questions from your Policy Docs",
+        "Helps you understand your policies better",
+      ],
     },
     {
-      name: "Chat3",
-      link: "/chat3",
+      name: "Policy Form",
+      link: "/policy-form",
+      features: [
+        "Has forms for all types of insurance policies",
+        "Fill out forms with ease",
+        "Get real time replies from AI",
+      ],
     },
   ];
 
@@ -39,13 +58,15 @@ const Sidebar = () => {
       >
         {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </Button>
-
       <div
         className={`fixed inset-y-0 left-0 z-40 w-full max-w-[330px] transform bg-white transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
         <div className="flex h-full flex-col">
+          <Link href="/" className="mx-auto pt-5 text-xl font-semibold">
+            <h1 className="text-blue-500">PolicySense</h1>
+          </Link>{" "}
           <div className="relative">
             <Button
               className="mx-2 mb-2 mt-5 w-[calc(100%-16px)] gap-x-1"
@@ -53,7 +74,13 @@ const Sidebar = () => {
               onClick={toggleChatOptions}
             >
               <Plus className="h-5 w-5 text-gray-400" />
-              New Chat
+              {pathname === "/policy-query"
+                ? "New Policy Query"
+                : pathname === "/verify-docs"
+                  ? "New Verify Docs"
+                  : pathname === "/policy-form"
+                    ? "New Policy Form"
+                    : "New Chat"}
               <ChevronDown className="ml-auto h-4 w-4" />
             </Button>
             {showChatOptions && (
@@ -74,7 +101,35 @@ const Sidebar = () => {
               </div>
             )}
           </div>
-
+          <div className="mx-5 pt-10">
+            {pathname === "/policy-query" && (
+              <div>
+                {chatOptions[0].features.map((feature, index) => (
+                  <li key={index} className="text-sm text-gray-400">
+                    {feature}
+                  </li>
+                ))}
+              </div>
+            )}
+            {pathname === "/verify-docs" && (
+              <div>
+                {chatOptions[1].features.map((feature, index) => (
+                  <li key={index} className="text-sm text-gray-400">
+                    {feature}
+                  </li>
+                ))}
+              </div>
+            )}
+            {pathname === "/policy-form" && (
+              <div>
+                {chatOptions[2].features.map((feature, index) => (
+                  <li key={index} className="text-sm text-gray-400">
+                    {feature}
+                  </li>
+                ))}
+              </div>
+            )}
+          </div>
           <div className="mx-6 mt-auto flex items-center justify-between rounded-lg p-2">
             {session?.user ? (
               <div className="flex items-center justify-between">
@@ -105,7 +160,6 @@ const Sidebar = () => {
           </div>
         </div>
       </div>
-
       {isOpen && (
         <div
           className="fixed inset-0 z-30 bg-black bg-opacity-50 md:hidden"

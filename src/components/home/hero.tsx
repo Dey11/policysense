@@ -42,41 +42,36 @@ const PolicyObject = [
   {
     name: "PolicyQuery",
     description:
-      "Quickly access and manage all your financial policies in one place.",
+      "Your one stop destination for any queries related to policies.",
     features: [
-      "Access all your financial policies",
-      "Download and view documents",
-      "Get real time updates",
+      "Your one stop destination for policies",
+      "Get real time replies from AI",
       "Quickly compare policy details",
     ],
     button: "Get Started",
-    link: "/chat",
+    link: "/policy-query",
   },
   {
     name: "VerifyDocs",
-    description:
-      "Instantly verify the authenticity and accuracy of your policy documents.",
+    description: "Talk to your policy documents.",
     features: [
       "Instantly upload Policy Docs",
-      "Ensure Document Authenticity",
-      "Receive Notifications via SMS",
-      "Track Document Status",
+      "Ask questions from your Policy Docs",
+      "Helps you understand your policies better",
     ],
     button: "Get Started",
-    link: "/chat2",
+    link: "/verify-docs",
   },
   {
     name: "PolicyForm",
-    description:
-      "Easily update, submit, and track your financial policy forms.",
+    description: "Easily fill out policy forms through chat.",
     features: [
-      "Update Key Policy Details",
-      "Update Key Policy Details",
-      "AI powered forms",
-      "Access Pre-Filled Forms",
+      "Has forms for all types of insurance policies",
+      "Fill out forms with ease",
+      "Get real time replies from AI",
     ],
     button: "Get Started",
-    link: "/chat3",
+    link: "/policy-form",
   },
 ];
 
