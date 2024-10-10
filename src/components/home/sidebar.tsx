@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { Menu, Plus, X, ChevronDown, LogOut } from "lucide-react";
+import { Menu, Plus, X, ChevronDown, LogOut, Globe } from "lucide-react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import { SignIn } from "../custom-btns/signin";
 import { usePathname } from "next/navigation";
+import { useRecoilState } from "recoil";
+import { langState } from "@/store/languageState";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +17,23 @@ const Sidebar = () => {
   const { data: session } = useSession();
   const toggleSidebar = () => setIsOpen(!isOpen);
   const toggleChatOptions = () => setShowChatOptions(!showChatOptions);
+  const [lang, setLang] = useRecoilState(langState);
+  const [showLanguageOptions, setShowLanguageOptions] = useState(false);
+  const toggleLanguageOptions = () =>
+    setShowLanguageOptions(!showLanguageOptions);
 
   const pathname = usePathname();
+
+  const languageOptions = [
+    {
+      name: "English",
+      onClick: () => setLang({ language: "English" }),
+    },
+    {
+      name: "Hindi",
+      onClick: () => setLang({ language: "Hindi" }),
+    },
+  ];
 
   const chatOptions = [
     {
@@ -96,6 +113,33 @@ const Sidebar = () => {
                       {option.name}
                     </Button>
                   </Link>
+                ))}
+              </div>
+            )}
+
+            <Button
+              className="mx-2 mb-2 mt-5 w-[calc(100%-16px)] gap-x-1"
+              variant="outline"
+              onClick={toggleLanguageOptions}
+            >
+              <Globe className="mr-1 h-5 w-5 text-gray-400" />
+              {lang.language}
+              <ChevronDown className="ml-auto h-4 w-4" />
+            </Button>
+            {showLanguageOptions && (
+              <div className="absolute left-2 right-2 top-full z-50 rounded-md border border-gray-200 bg-white shadow-lg">
+                {languageOptions.map((option, index) => (
+                  <Button
+                    key={index}
+                    className="w-full justify-start rounded-none hover:bg-gray-100"
+                    variant="ghost"
+                    onClick={() => {
+                      setShowLanguageOptions(false);
+                      setLang({ language: option.name });
+                    }}
+                  >
+                    {option.name}
+                  </Button>
                 ))}
               </div>
             )}

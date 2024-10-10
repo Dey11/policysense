@@ -2,8 +2,9 @@ import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { message, uniqueId } = await request.json();
+  const { message, uniqueId, lang } = await request.json();
   const session = await auth();
+
   try {
     const res = await fetch(process.env.CHATBOT3!, {
       method: "POST",
@@ -13,6 +14,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         query: `${message}.`,
         user_id: session?.user?.id || uniqueId || "okok",
+        language: lang.language || "English",
       }),
     });
     const data = await res.json();

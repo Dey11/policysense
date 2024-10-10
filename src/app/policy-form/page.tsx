@@ -1,7 +1,9 @@
 "use client";
 
 import { randomString } from "@/lib/utils";
+import { langState } from "@/store/languageState";
 import React, { useState, useEffect, useRef } from "react";
+import { useRecoilState } from "recoil";
 
 interface Message {
   id: string;
@@ -46,6 +48,7 @@ const Chat = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messageIdCounter = useRef(0);
   const uniqueId = randomString(5);
+  const [lang, setLang] = useRecoilState(langState);
   const createMessage = (text: string, sender: "user" | "ai"): Message => ({
     id: `${sender}-${messageIdCounter.current++}`,
     text,
@@ -60,7 +63,7 @@ const Chat = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message: "Hi!", uniqueId }),
+          body: JSON.stringify({ message: "Hi!", uniqueId, lang }),
         });
 
         const responseData = await response.json();
@@ -100,7 +103,7 @@ const Chat = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: input, lang }),
       });
 
       const responseData = await response.json();

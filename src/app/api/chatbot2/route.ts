@@ -8,6 +8,7 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData();
   const query = formData.get("query");
   const uniqueId = formData.get("uniqueId");
+  const lang = formData.get("language");
 
   try {
     const res = await fetch(process.env.CHATBOT2!, {
@@ -15,6 +16,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         query: query as string,
         user_id: session?.user?.id || uniqueId || "okok",
+        language: lang || "English",
       }),
     });
 

@@ -1,7 +1,9 @@
 "use client";
 
 import { randomString } from "@/lib/utils";
+import { langState } from "@/store/languageState";
 import React, { useState, useEffect, useRef } from "react";
+import { useRecoilState } from "recoil";
 
 interface Message {
   id: number;
@@ -14,6 +16,7 @@ const Chat = () => {
   const [input, setInput] = useState<string>("");
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const uniqueId = randomString(5);
+  const [lang, setLang] = useRecoilState(langState);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -39,7 +42,7 @@ const Chat = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: input, uniqueId }),
+        body: JSON.stringify({ message: input, uniqueId, lang }),
       });
 
       const responseData = await response.json();

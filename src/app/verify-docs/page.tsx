@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { randomString } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { langState } from "@/store/languageState";
+import { useRecoilState } from "recoil";
 
 interface Message {
   id: number;
@@ -19,6 +21,7 @@ const Chat2 = () => {
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const uniqueId = randomString(5);
+  const [lang, setLang] = useRecoilState(langState);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -92,6 +95,7 @@ const Chat2 = () => {
       const formData = new FormData();
       formData.append("query", input);
       formData.append("uniqueId", uniqueId);
+      formData.append("language", lang.language);
       setIsLoading(true);
       setMessages((prevMessages) => [
         ...prevMessages,
