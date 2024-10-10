@@ -1,9 +1,8 @@
 import { auth } from "@/auth";
-import { randomString } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
-  const { message } = await request.json();
+  const { message, uniqueId } = await request.json();
   const session = await auth();
   try {
     const res = await fetch(process.env.CHATBOT3!, {
@@ -13,7 +12,7 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         query: `${message}.`,
-        user_id: session?.user?.id || "abc",
+        user_id: session?.user?.id || uniqueId || "okok",
       }),
     });
     const data = await res.json();

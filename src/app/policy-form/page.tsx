@@ -1,5 +1,6 @@
 "use client";
 
+import { randomString } from "@/lib/utils";
 import React, { useState, useEffect, useRef } from "react";
 
 interface Message {
@@ -40,6 +41,7 @@ const Chat = () => {
   const [modalData, setModalData] = useState<any>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messageIdCounter = useRef(0);
+  const uniqueId = randomString(5);
   const createMessage = (text: string, sender: "user" | "ai"): Message => ({
     id: `${sender}-${messageIdCounter.current++}`,
     text,
@@ -54,7 +56,7 @@ const Chat = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ message: "Hi!" }),
+          body: JSON.stringify({ message: "Hi!", uniqueId }),
         });
 
         const responseData = await response.json();

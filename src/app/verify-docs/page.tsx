@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { randomString } from "@/lib/utils";
 
 interface Message {
   id: number;
@@ -16,6 +17,7 @@ const Chat2 = () => {
   const [file, setFile] = useState<File | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const uniqueId = randomString(5);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -48,6 +50,7 @@ const Chat2 = () => {
     try {
       const formData = new FormData();
       formData.append("query", input);
+      formData.append("uniqueId", uniqueId);
       if (file) {
         formData.append("pdf", file);
       }

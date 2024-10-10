@@ -1,5 +1,6 @@
 "use client";
 
+import { randomString } from "@/lib/utils";
 import React, { useState, useEffect, useRef } from "react";
 
 interface Message {
@@ -12,6 +13,7 @@ const Chat = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState<string>("");
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  const uniqueId = randomString(5);
 
   useEffect(() => {
     if (chatContainerRef.current) {
@@ -37,7 +39,7 @@ const Chat = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: input, uniqueId }),
       });
 
       const responseData = await response.json();
