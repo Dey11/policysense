@@ -17,7 +17,6 @@ const Sidebar = () => {
   const toggleChatOptions = () => setShowChatOptions(!showChatOptions);
 
   const pathname = usePathname();
-  console.log(pathname);
 
   const chatOptions = [
     {
