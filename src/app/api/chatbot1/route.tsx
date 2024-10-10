@@ -1,6 +1,8 @@
+import { auth } from "@/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const session = await auth();
   const { message } = await request.json();
   try {
     const res = await fetch(process.env.CHATBOT1!, {
@@ -9,7 +11,8 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        query: `${message}. Please do not use markdown. Respond with only the answer.`,
+        query: `${message}`,
+        user_id: session?.user?.id || "abc",
       }),
     });
     const data = await res.json();

@@ -75,11 +75,11 @@ const Sidebar = () => {
             >
               <Plus className="h-5 w-5 text-gray-400" />
               {pathname === "/policy-query"
-                ? "New Policy Query"
+                ? "Policy Query"
                 : pathname === "/verify-docs"
-                  ? "New Verify Docs"
+                  ? "Verify Docs"
                   : pathname === "/policy-form"
-                    ? "New Policy Form"
+                    ? "Policy Form"
                     : "New Chat"}
               <ChevronDown className="ml-auto h-4 w-4" />
             </Button>

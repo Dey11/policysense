@@ -7,7 +7,6 @@ interface Message {
   text: string;
   sender: "user" | "ai";
 }
-
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -116,50 +115,81 @@ const Chat = () => {
   };
 
   return (
-    <div className="no-scrollbar mx-auto flex h-[95dvh] max-w-3xl flex-col p-4">
-      <div className="mb-4 flex-1 overflow-y-auto px-2" ref={chatContainerRef}>
-        {messages.map((message) => (
-          <div
-            key={message.id}
-            className={`mb-4 ${
-              message.sender === "user" ? "text-right" : "text-left"
-            }`}
-          >
+    <div className="flex">
+      <div className="no-scrollbar mx-auto flex h-[95dvh] w-full max-w-3xl flex-col p-4">
+        <div
+          className="mb-4 flex-1 overflow-y-auto px-2"
+          ref={chatContainerRef}
+        >
+          {messages.map((message) => (
             <div
-              className={`inline-block rounded-2xl p-2 ${
-                message.sender === "user"
-                  ? "max-w-xl rounded-br-none bg-white text-blue-500"
-                  : "max-w-xl rounded-bl-none bg-blue-500 text-white"
+              key={message.id}
+              className={`mb-4 ${
+                message.sender === "user" ? "text-right" : "text-left"
               }`}
             >
-              {message.text}
+              <div
+                className={`inline-block rounded-2xl p-2 ${
+                  message.sender === "user"
+                    ? "max-w-xl rounded-br-none bg-white text-blue-500"
+                    : "max-w-xl rounded-bl-none bg-blue-500 text-white"
+                }`}
+              >
+                {message.text}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className="flex">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-          className="flex-1 rounded-l-lg border p-2"
-          placeholder="Type your message..."
+          ))}
+        </div>
+        <div className="flex">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+            className="flex-1 rounded-l-lg border p-2"
+            placeholder="Type your message..."
+          />
+          <button
+            onClick={sendMessage}
+            className="rounded-r-lg bg-blue-500 p-2 text-white"
+          >
+            Send
+          </button>
+        </div>
+        <Modal
+          isOpen={modalData !== null}
+          onClose={() => setModalData(null)}
+          data={modalData}
         />
-        <button
-          onClick={sendMessage}
-          className="rounded-r-lg bg-blue-500 p-2 text-white"
-        >
-          Send
-        </button>
       </div>
-      <Modal
-        isOpen={modalData !== null}
-        onClose={() => setModalData(null)}
-        data={modalData}
-      />
+      {/* <div className="w-full max-w-2xl">
+        <h2 className="mb-4 text-xl font-bold">Form Data</h2>
+        {Object.entries(ok).map(([key, value]) => (
+          <p key={key} className="mb-2">
+            <strong>{key}:</strong> {String(value)}
+          </p>
+        ))}
+      </div> */}
     </div>
   );
 };
 
 export default Chat;
+
+const ok = [
+  {
+    id: 1,
+    text: "Your form is filled with the data you provided.",
+    sender: "ai",
+  },
+  {
+    id: 2,
+    text: "Your form is filled with the data you provided.",
+    sender: "ai",
+  },
+  {
+    id: 3,
+    text: "Your form is filled with the data you provided.",
+    sender: "ai",
+  },
+];

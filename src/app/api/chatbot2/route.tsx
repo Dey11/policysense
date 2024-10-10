@@ -1,14 +1,18 @@
 export const maxDuration = 60;
 
+import { auth } from "@/auth";
+import { randomString } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
+  const session = await auth();
   const formData = await request.formData();
   const query = formData.get("query");
   const file = formData.get("pdf");
 
   const apiFormData = new FormData();
   apiFormData.append("query", query as string);
+  apiFormData.append("user_id", session?.user?.id || "abc");
   apiFormData.append("file", file!);
 
   try {
