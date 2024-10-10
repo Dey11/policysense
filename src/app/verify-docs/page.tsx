@@ -20,6 +20,7 @@ const Chat2 = () => {
   const [file, setFile] = useState<File | null>(null);
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const uniqueId = randomString(5);
   const [lang, setLang] = useRecoilState(langState);
 
@@ -41,6 +42,16 @@ const Chat2 = () => {
       alert("Please upload a PDF file first");
       return;
     }
+    setIsUploading(true);
+    const aiMessage: Message = {
+      id: messages.length + 1,
+      text: "Uploading your PDF...",
+      sender: "ai",
+    };
+    setMessages((prevMessages) => [
+      ...prevMessages.slice(0, prevMessages.length - 1),
+    ]);
+    setMessages((prevMessages) => [...prevMessages, aiMessage]);
     const formData = new FormData();
     formData.append("uniqueId", uniqueId);
     formData.append("pdf", file);
@@ -76,7 +87,7 @@ const Chat2 = () => {
       ]);
       console.error("Error fetching AI response:", error);
     } finally {
-      setIsLoading(false);
+      setIsUploading(false);
     }
   };
 
@@ -150,7 +161,7 @@ const Chat2 = () => {
         <Button
           onClick={handleSubmit}
           className="rounded-r-lg bg-blue-500 p-2 text-white disabled:cursor-not-allowed disabled:bg-blue-300"
-          disabled={isLoading}
+          disabled={isUploading}
         >
           Submit
         </Button>
