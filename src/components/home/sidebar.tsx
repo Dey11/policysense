@@ -116,7 +116,8 @@ const Sidebar = () => {
                 ))}
               </div>
             )}
-
+          </div>
+          <div className="relative">
             <Button
               className="mx-2 mb-2 mt-5 w-[calc(100%-16px)] gap-x-1"
               variant="outline"
