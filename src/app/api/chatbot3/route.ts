@@ -16,11 +16,17 @@ export async function POST(request: NextRequest) {
       }),
     });
     const data = await res.json();
+    console.log(data);
 
-    if (data.response.includes("```json")) {
-      const resData = JSON.parse(
-        data.response.replace("```json", "").replace("```", ""),
-      );
+    if (data?.response.includes("```json")) {
+      const resData = data.response
+        .split("``")[1]
+        .replace("```", "")
+        .replace("`json", "");
+      // console.log(mock);
+      // const resData = JSON.parse(
+      //   data.response.replace("``json", "").replace("```", ""),
+      // );
       return NextResponse.json({
         message: "Your form is filled with the data you provided.",
         resData,

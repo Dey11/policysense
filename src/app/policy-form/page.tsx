@@ -13,17 +13,21 @@ interface ModalProps {
   onClose: () => void;
   data: any;
 }
+
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, data }) => {
   if (!isOpen) return null;
+  const displayData = JSON.parse(data);
+  console.log(displayData);
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="max-h-[80vh] w-full max-w-lg overflow-y-auto rounded-lg bg-white p-6">
         <h2 className="mb-4 text-xl font-bold">Form Data</h2>
-        {Object.entries(data).map(([key, value]) => (
+        {Object.entries(displayData).map(([key, value]) => (
           <p key={key} className="mb-2">
             <strong>{key}:</strong> {String(value)}
           </p>
         ))}
+
         <button
           onClick={onClose}
           className="mt-4 rounded bg-blue-500 px-4 py-2 text-white"

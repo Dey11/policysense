@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { randomString } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface Message {
   id: number;
@@ -26,18 +27,58 @@ const Chat2 = () => {
     }
   }, [messages]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
     }
   };
 
-  const sendMessage = async () => {
-    if (input.trim() === "") return;
+  const handleSubmit = async () => {
     if (!file) {
       alert("Please upload a PDF file first");
       return;
     }
+    const formData = new FormData();
+    formData.append("uniqueId", uniqueId);
+    formData.append("pdf", file);
+    try {
+      const response = await fetch("/api/chatbot2-upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch AI response");
+      }
+
+      const aiMessage: Message = {
+        id: messages.length + 1,
+        text: responseData.message,
+        sender: "ai",
+      };
+      setMessages((prevMessages) => [
+        ...prevMessages.slice(0, prevMessages.length - 1),
+      ]);
+
+      setMessages((prevMessages) => [...prevMessages, aiMessage]);
+    } catch (error) {
+      setMessages((prevMessages) => [
+        ...prevMessages.slice(0, prevMessages.length - 1),
+      ]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { id: messages.length + 1, text: "Something went wrong", sender: "ai" },
+      ]);
+      console.error("Error fetching AI response:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sendMessage = async () => {
+    if (input.trim() === "") return;
 
     const userMessage: Message = {
       id: messages.length,
@@ -51,9 +92,6 @@ const Chat2 = () => {
       const formData = new FormData();
       formData.append("query", input);
       formData.append("uniqueId", uniqueId);
-      if (file) {
-        formData.append("pdf", file);
-      }
       setIsLoading(true);
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -95,7 +133,7 @@ const Chat2 = () => {
 
   return (
     <div className="mx-auto flex h-[95dvh] max-w-3xl flex-col p-4">
-      <div className="mb-4">
+      <div className="mb-4 flex items-center gap-x-2 pt-10">
         <Label htmlFor="file" className="text-sm font-medium">
           Upload PDF
         </Label>
@@ -104,8 +142,14 @@ const Chat2 = () => {
           type="file"
           accept="application/pdf"
           onChange={handleFileChange}
-          className="mt-1"
         />
+        <Button
+          onClick={handleSubmit}
+          className="rounded-r-lg bg-blue-500 p-2 text-white disabled:cursor-not-allowed disabled:bg-blue-300"
+          disabled={isLoading}
+        >
+          Submit
+        </Button>
       </div>
       <div className="mb-4 flex-1 overflow-y-auto px-2" ref={chatContainerRef}>
         {messages.map((message) => (
